@@ -1,0 +1,2 @@
+Afin de faire le test avec mon projet vous devez installer au prealable Flask, Flask-WTF, Pymongo
+vous lancez le routes.py et puis vous accedez a l'url /contact, une fois que vous aurez remplie le formulaire, un utilisateur sera enregistre avec le nom saisie
