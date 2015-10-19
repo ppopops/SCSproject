@@ -9,7 +9,7 @@ class Batiment:
 
     def __init__(self, db, nomBatiment = "0", adresseBatiment = "0", faculteBatiment="0", CampusBatiment = "0", id = "0"):
 
-        self.collection = db.Batiment    # collection Salle dans MongoDB
+        self.collection = db.Batiment    # collection Batiment dans MongoDB
         if  id == "0":
             uniqueid= uuid.uuid4()
             self.id = str(uniqueid)
@@ -24,6 +24,7 @@ class Batiment:
         item = {"_id" : self.id, "nomBatiment" : self.nomBatiment ,"adresseBatiment" : self.adresseBatiment, "faculteBatiment" : self.faculteBatiment, "CampusBatiment" : self.CampusBatiment }
         print item
         item_id = self.collection.insert_one(item).inserted_id
+        print item_id
         return item_id
 
 

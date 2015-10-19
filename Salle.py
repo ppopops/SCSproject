@@ -1,8 +1,12 @@
+__author__ = 'Hong'
 import uuid
 from flask import Flask, jsonify, render_template, request, redirect
 import os
 from pymongo import MongoClient
 from MongoDB import Connect
+from Batiment import Batiment
+
+
 
 class Salle:
 
@@ -60,24 +64,6 @@ class Salle:
             return func
         return decorate
 
-    @static_vars (idSalle= 0)
-    def InsertSalle(numeroSalle, etageSalle, capaciteSalle, equipementSalle, idBatiment):
-        InsertSalle.idSalle += 1
-        item = {"_id" : InsertSalle.idSalle , "numeroSalle" : numeroSalle,"etageSalle" : etageSalle, "capaciteSalle" : capaciteSalle, "equipementSalle" : equipementSalle, "idBatiment" : idBatiment }
-        item_id = collection.insert_one(item).inserted_id
-        return item_id
-
-
-    def ReturnSalle():
-        with app.app_context():
-            result = []
-            for data in collection.find():
-                result.append(data)
-            return result
-
-
-
-
     def InsertNomFaculte2 (nomUniversite , nomFaculte):
         collection.update({"nomUniversite" : nomUniversite}, {"$addToSet":{"Faculte" : {"nomFaculte" : nomFaculte} } })
 
@@ -96,22 +82,8 @@ class Salle:
     #    collection.update({"nomUniversite" : nomUniversite}, {"$set":{"Faculte.nomFaculte" : nomFaculte } })
         collection.update({"nomUniversite" : nomUniversite}, {"$set":{"Faculte." + nomFaculte + "." + nomBatiment : nomBatiment } })
 
-    ####################DRIVER###############################################
+    '''
 
 
 
 
-    #result = []
-    #result = [{'1': 1}, {'2': 2}]
-    #jsonify({'result': result})
-    #Insert Faculte
-    #InsertNomFaculte ("UdeS" , "Sciences")
-    #InsertNomFaculte ("UdeS" , "Math")
-
-    #insert Batiment
-    #InsertBatiment("UdeS", "Sciences", "Schulich", "425 Sherbrooke")
-
-    #print collection
-    #test = collection.find_one()
-    #print test
-'''
