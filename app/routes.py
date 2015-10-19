@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash,redirect, url_for
-from forms import ContactForm
+from forms import ContactForm, Authentification
 from pymongo import MongoClient
 
 app = Flask(__name__) 
@@ -27,6 +27,12 @@ def UpdateElement(db):
 def DeleteElement(db,name):
 	db.countries.delete_one({"name":"Canada"})
 
+def FindUser(db,login,password):
+	cursor = db.users.find({"login": login},{"password":password})
+	for document in cursor:
+		return document
+
+
 db = Connect()
 
 @app.route('/contact', methods=['GET','POST'])
@@ -48,6 +54,27 @@ def contact():
 @app.route('/')
 def home():
   return render_template('home.html')
+  
+@app.route('/about')
+def about():
+  return render_template('about.html')
  
+@app.route('/login', methods=['GET','POST'])
+def login():
+  form = Authentification()
+
+  if request.method == 'POST':
+  	if form.validate() == False:
+  		flash('All fields are required.')
+  		return render_template('login.html',form=form)
+  	else:
+  		test = FindUser(db,form.login.data,form.password.data)
+  		return test
+  		#return redirect(url_for('home'))
+
+  elif request.method=='GET':	
+  	return render_template('login.html', form=form)
+
+
 if __name__ == '__main__':
   app.run(debug=True)

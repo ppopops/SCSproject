@@ -80,8 +80,6 @@ form label {
  
 form input#name,
 form input#email,
-form input#login,
-form input#password,
 form input#subject {
   width: 400px;
   background-color: #fafafa;
