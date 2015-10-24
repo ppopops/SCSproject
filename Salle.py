@@ -7,10 +7,9 @@ from MongoDB import Connect
 from Batiment import Batiment
 
 
-
 class Salle:
 
-    def __init__(self, db, numeroSalle = "0", etageSalle = "0", capaciteSalle="0", equipmentSalle = "0", idBatiment = "0",id = "0"):
+    def __init__(self, db, numero = "0", etage = "0", capacite="0", equipment = "0", idBatiment = "0", statut = "0", description = "0", id = "0"):
 
         self.collection = db.Salle    # collection Salle dans MongoDB
         if  id == "0":
@@ -18,34 +17,52 @@ class Salle:
             self.id = str(uniqueid)
         else :
             self.id = id
-        self.capaciteSalle = capaciteSalle
-        self.equipementSalle = equipmentSalle
-        self.etageSalle = etageSalle
-        self.numeroSalle = numeroSalle
+        self.capacite = capacite
+        self.equipement = equipment
+        self.etage = etage
+        self.numero = numero
         self.idBatiment = idBatiment
+        self.statut = statut
+        self.description = description
 
     def InsertSalle(self):
-        item = {"_id" : self.id, "numeroSalle" : self.numeroSalle ,"etageSalle" : self.etageSalle, "capaciteSalle" : self.capaciteSalle, "equipementSalle" : self.equipementSalle, "idBatiment" : self.idBatiment }
+        item = {"_id" : self.id, "numero" : self.numero ,"etage" : self.etage, "capacite" : self.capacite, "equipement" : self.equipement, "idBatiment" : self.idBatiment, "statut" : self.statut, "description" : self.description }
         print item
         item_id = self.collection.insert_one(item).inserted_id
         return item_id
 
     #retourber toutes les salles
-    def ReturnSalle(self):
+    #def ReturnSalle(self):
+    #    result = []
+    #    for data in self.collection.find():
+    #        result.append(data)
+    #    return result
+
+    #retourber toutes les salles
+    @staticmethod
+    def GetAllSalle(db):
         result = []
-        for data in self.collection.find():
+        for data in db.Salle.find():
             result.append(data)
         return result
 
-    def ReturnSalleid(self, id):
+    #retourber toutes les salles
+    @staticmethod
+    def GetIdSalle(db,id):
         result = []
-        for data in self.collection.find({"_id": id }):
+        for data in db.Salle.find({"_id": id }):
             result.append(data)
         return result
+
+    #def ReturnSalleid(self, id):
+    #    result = []
+    #    for data in self.collection.find({"_id": id }):
+    #        result.append(data)
+    #    return result
 
     def UpdateSalle(self):
         #print {"_id" : self.id, "numeroSalle" : self.numeroSalle ,"etageSalle" : self.etageSalle, "capaciteSalle" : self.capaciteSalle, "equipementSalle" : self.equipementSalle, "idBatiment" : self.idBatiment }
-        self.collection.update({"_id" : self.id}, {"numeroSalle" : self.numeroSalle ,"etageSalle" : self.etageSalle, "capaciteSalle" : self.capaciteSalle, "equipementSalle" : self.equipementSalle, "idBatiment" : self.idBatiment })
+        self.collection.update({"_id" : self.id}, {"numero" : self.numero ,"etage" : self.etage, "capacite" : self.capacite, "equipement" : self.equipement, "idBatiment" : self.idBatiment, "statut" : self.statut , "description" : self.description })
         return
 
     def DeleteSalle(self):

@@ -7,7 +7,7 @@ from MongoDB import Connect
 
 class Horaire:
 
-    def __init__(self, db, date = "0", idSalle = "0", idPresentation = "0", heureDebut = "0", id = "0"):
+    def __init__(self, db, date = "0", idSalle = "0", idPresentation = "0", heureDebut = "0", statut = "0", id = "0"):
 
         self.collection = db.Horaire    # collection Batiment dans MongoDB
         if  id == "0":
@@ -19,30 +19,45 @@ class Horaire:
         self.idSalle = idSalle
         self.idPresentation = idPresentation
         self.heureDebut = heureDebut
+        self.statut = statut
 
     def InsertHoraire(self):
-        item = {"_id" : self.id, "date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut }
+        item = {"_id" : self.id, "date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut, "statut" : self.statut }
         #print item
         item_id = self.collection.insert_one(item).inserted_id
         #print item_id
         return item_id
 
 
-    def ReturnHoraire(self):
+    #def ReturnHoraire(self):
+    #    result = []
+    #    for data in self.collection.find():
+    #        result.append(data)
+    #    return result
+
+    #def ReturnHoraireid(self, id):
+    #    result = []
+    #    for data in self.collection.find({"_id": id }):
+    #        result.append(data)
+    #    return result
+
+    @staticmethod
+    def GetAllHoraire(db):
         result = []
-        for data in self.collection.find():
+        for data in db.Horaire.find():
             result.append(data)
         return result
 
-    def ReturnHoraireid(self, id):
+    @staticmethod
+    def GetIdHoraire(db, id):
         result = []
-        for data in self.collection.find({"_id": id }):
+        for data in db.Horaire.find({"_id": id }):
             result.append(data)
         return result
 
     def UpdateHoraire(self):
         #print {"_id" : self.id, "numeroSalle" : self.numeroSalle ,"etageSalle" : self.etageSalle, "capaciteSalle" : self.capaciteSalle, "equipementSalle" : self.equipementSalle, "idBatiment" : self.idBatiment }
-        self.collection.update({"_id" : self.id}, {"date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut  })
+        self.collection.update({"_id" : self.id}, {"date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut , "statut" : self.statut })
         return
 
     def DeleteHoraire(self):

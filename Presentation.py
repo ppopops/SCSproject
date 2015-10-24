@@ -29,15 +29,29 @@ class Presentation:
         return item_id
 
 
-    def ReturnPresentation(self):
+    #def ReturnPresentation(self):
+    #    result = []
+    #    for data in self.collection.find():
+    #        result.append(data)
+    #    return result
+
+    #def ReturnPresentationid(self, id):
+    #    result = []
+    #    for data in self.collection.find({"_id": id }):
+    #        result.append(data)
+    #    return result
+
+    @staticmethod
+    def GetAllPresentation(db):
         result = []
-        for data in self.collection.find():
+        for data in db.Presentation.find():
             result.append(data)
         return result
 
-    def ReturnPresentationid(self, id):
+    @staticmethod
+    def GetIdPresentation(db, id):
         result = []
-        for data in self.collection.find({"_id": id }):
+        for data in db.Presentation.find({"_id": id }):
             result.append(data)
         return result
 
