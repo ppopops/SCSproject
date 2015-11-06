@@ -32,9 +32,10 @@ def create_horaire():
     idSalle =  horaire.get ("idSalle","")
     idPresentation =  horaire.get ("idPresentation","")
     heureDebut =  horaire.get ("heureDebut","")
+    minuteDebut =  horaire.get ("minuteDebut","")
     statut =  horaire.get ("statut","")
     id = "0"   #contructor will set id
-    horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut,statut, id )
+    horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut,minuteDebut,statut, id )
     itemId = horaire.InsertHoraire()
     #print itemId
 
@@ -58,8 +59,12 @@ def get_horaire():
         #idPresentation = presentation.ReturnPresentationid(s["idPresentation"])
         idPresentation = Presentation.GetIdPresentation(db, s["idPresentation"])
         result[i]["idPresentation"] = idPresentation
-
         i = i +1
+
+    #test
+    #testResult = Horaire.FindHoraire(db, "18/12/2015","")
+    #print testResult
+    #
     return jsonify ({'horaire' : result})
     #return jsonify({'horaire': horaire.ReturnHoraire()})
 
@@ -70,6 +75,7 @@ def get_horaire_id(horaire_id):
 
 @horaire_app.route('/SCSproject/api/updatehoraire', methods=['POST'])
 def update_horaire():
+    print 'abd'
     content = request.get_json(force = True)
     print content
 
@@ -79,9 +85,10 @@ def update_horaire():
     idSalle =  horaire.get ("idSalle","")
     idPresentation =  horaire.get ("idPresentation","")
     heureDebut =  horaire.get ("heureDebut","")
+    minuteDebut =  horaire.get ("minuteDebut","")
     statut = horaire.get("statut")
     id = horaire.get ("_id")
-    horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut, statut, id )
+    horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut, minuteDebut, statut, id )
     horaire.UpdateHoraire()
 
     return jsonify(result={"status": 200})
@@ -97,9 +104,10 @@ def delete_horaire():
     idSalle =  horaire.get ("idSalle","")
     idPresentation =  horaire.get ("idPresentation","")
     heureDebut =  horaire.get ("heureDebut","")
+    minuteDebut =  horaire.get ("minuteDebut","")
     statut = horaire.get("statut")
     id = horaire.get ("_id")
-    horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut, statut, id )
+    horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut, minuteDebut, statut, id )
     horaire.DeleteHoraire()
 
     return jsonify(result={"status": 200})

@@ -4,7 +4,7 @@ from flask import Flask, jsonify, render_template, request, redirect
 
 class Presentation:
 
-    def __init__(self, db, titre = "0", nombreParticipants = "0", equipement = "0", duree = "0", presentateur = "", id = "0"):
+    def __init__(self, db, titre = "0", nombreParticipants = 0, equipement = "0", dureeHeure = 0, dureeMinute = 0, presentateur = "", id = "0"):
 
         self.collection = db.Presentation    # collection Batiment dans MongoDB
         if  id == "0":
@@ -15,11 +15,12 @@ class Presentation:
         self.titre = titre
         self.nombreParticipants = nombreParticipants
         self.equipement = equipement
-        self.duree = duree
+        self.dureeHeure = dureeHeure
+        self.dureeMinute = dureeMinute
         self.presentateur = presentateur
 
     def InsertPresentation(self):
-        item = {"_id" : self.id, "titre" : self.titre ,"nombreParticipants" : self.nombreParticipants, "equipement" : self.equipement, "duree" : self.duree, "presentateur" : self.presentateur }
+        item = {"_id" : self.id, "titre" : self.titre ,"nombreParticipants" : self.nombreParticipants, "equipement" : self.equipement, "dureeHeure" : self.dureeHeure, "dureeMinute" : self.dureeMinute, "presentateur" : self.presentateur }
         #print item
         item_id = self.collection.insert_one(item).inserted_id
         #print item_id
@@ -54,7 +55,7 @@ class Presentation:
 
     def UpdatePresentation(self):
         #print {"_id" : self.id, "numeroSalle" : self.numeroSalle ,"etageSalle" : self.etageSalle, "capaciteSalle" : self.capaciteSalle, "equipementSalle" : self.equipementSalle, "idBatiment" : self.idBatiment }
-        self.collection.update({"_id" : self.id}, {"titre" : self.titre ,"nombreParticipants" : self.nombreParticipants, "equipement" : self.equipement, "duree" : self.duree , "presentateur" : self.presentateur  })
+        self.collection.update({"_id" : self.id}, {"titre" : self.titre ,"nombreParticipants" : self.nombreParticipants, "equipement" : self.equipement, "dureeHeure" : self.dureeHeure ,  "dureeMinute" : self.dureeMinute, "presentateur" : self.presentateur  })
         return
 
     def DeletePresentation(self):

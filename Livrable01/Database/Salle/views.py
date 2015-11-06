@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from MongoDB import Connect
 from flask import Blueprint
 from flask import Flask
+from flask import jsonify
 from Batiment.Batiment import Batiment
 from Salle import *
 

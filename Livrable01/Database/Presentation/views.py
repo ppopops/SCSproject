@@ -29,10 +29,11 @@ def create_presentation():
     titre =  presentation.get ("titre","")
     nombreParticipants =  presentation.get ("nombreParticipants","")
     equipement =  presentation.get ("equipement","")
-    duree =  presentation.get ("duree","")
+    dureeHeure =  presentation.get ("dureeHeure","")
+    dureeMinute =  presentation.get ("dureeMinute","")
     presentateur =  presentation.get ("presentateur","")
     id = "0"   #contructor will set id
-    presentation = Presentation( db, titre ,nombreParticipants, equipement, duree ,presentateur, id )
+    presentation = Presentation( db, titre ,nombreParticipants, equipement, dureeHeure ,dureeMinute, presentateur, id )
     itemId = presentation.InsertPresentation()
     #print itemId
 
@@ -59,10 +60,11 @@ def update_presentation():
     titre =  presentation.get ("titre","")
     nombreParticipants =  presentation.get ("nombreParticipants","")
     equipement =  presentation.get ("equipement","")
-    duree =  presentation.get ("duree","")
+    dureeHeure =  presentation.get ("dureeHeure","")
+    dureeMinute =  presentation.get ("dureeMinute","")
     presentateur =  presentation.get ("presentateur","")
     id = presentation.get ("_id")
-    presentation = Presentation( db, titre ,nombreParticipants, equipement, duree , presentateur, id )
+    presentation = Presentation( db, titre ,nombreParticipants, equipement, dureeHeure ,dureeMinute, presentateur, id )
     presentation.UpdatePresentation()
 
     return jsonify(result={"status": 200})
@@ -77,10 +79,11 @@ def delete_presentation():
     titre =  presentation.get ("titre","")
     nombreParticipants =  presentation.get ("nombreParticipants","")
     equipement =  presentation.get ("equipement","")
-    duree =  presentation.get ("duree","")
+    dureeHeure =  presentation.get ("dureeHeure","")
+    dureeMinute =  presentation.get ("dureeMinute","")
     presentateur =  presentation.get ("presentateur","")
     id = presentation.get ("_id")
-    presentation = Presentation( db, titre ,nombreParticipants, equipement, duree , presentateur, id )
+    presentation = Presentation( db, titre ,nombreParticipants, equipement, dureeHeure ,dureeMinute , presentateur, id )
     presentation.DeletePresentation()
 
     return jsonify(result={"status": 200})

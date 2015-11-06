@@ -4,7 +4,7 @@ from flask import Flask, jsonify, render_template, request, redirect
 
 class Salle:
 
-    def __init__(self, db, numero = "0", etage = "0", capacite="0", equipment = "0", idBatiment = "0", statut = "0", description = "0", id = "0"):
+    def __init__(self, db, numero = "0", etage = 0, capacite= 0, equipment = "0", idBatiment = "0", statut = "0", description = "0", id = "0"):
 
         self.collection = db.Salle    # collection Salle dans MongoDB
         if  id == "0":

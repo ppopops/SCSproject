@@ -5,7 +5,7 @@ import os
 
 class Horaire:
 
-    def __init__(self, db, date = "0", idSalle = "0", idPresentation = "0", heureDebut = "0", statut = "0", id = "0"):
+    def __init__(self, db, date = 0, idSalle = "0", idPresentation = "0", heureDebut = 0, heureMinute = 0, statut = "0", id = "0"):
 
         self.collection = db.Horaire    # collection Batiment dans MongoDB
         if  id == "0":
@@ -17,10 +17,11 @@ class Horaire:
         self.idSalle = idSalle
         self.idPresentation = idPresentation
         self.heureDebut = heureDebut
+        self.heureMinute = heureMinute
         self.statut = statut
 
     def InsertHoraire(self):
-        item = {"_id" : self.id, "date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut, "statut" : self.statut }
+        item = {"_id" : self.id, "date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut, "heureMinute" : self.heureMinute,"statut" : self.statut }
         #print item
         item_id = self.collection.insert_one(item).inserted_id
         #print item_id
@@ -53,9 +54,16 @@ class Horaire:
             result.append(data)
         return result
 
+    @staticmethod
+    def FindHoraire(db, date = "", heure = 0, heureMinute = 0):
+        result = []
+        for data in db.Horaire.find({"date" : date, "heureDebut" : heure, "heureMinute" : heureMinute}):
+            result.append(data)
+        return result
+
     def UpdateHoraire(self):
         #print {"_id" : self.id, "numeroSalle" : self.numeroSalle ,"etageSalle" : self.etageSalle, "capaciteSalle" : self.capaciteSalle, "equipementSalle" : self.equipementSalle, "idBatiment" : self.idBatiment }
-        self.collection.update({"_id" : self.id}, {"date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut , "statut" : self.statut })
+        self.collection.update({"_id" : self.id}, {"date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut ,"heureMinute" : self.heureMinute, "statut" : self.statut })
         return
 
     def DeleteHoraire(self):

@@ -39,11 +39,12 @@ class User:
         result = []
         for data in db.User.find({"userid": userid, "password" : password }):
             result.append(data)
-        if result == []:
-            returnData = "Authentification not accepted"
-        else:
-            returnData = "Authentification accepted"
-        return returnData
+        return result
+        #if result == []:
+        #    returnData = "Authentification not accepted"
+        #else:
+        #    returnData = "Authentification accepted"
+        #return returnData
 
     #retourber 1 user par id
     @staticmethod
