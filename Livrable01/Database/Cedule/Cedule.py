@@ -5,6 +5,7 @@ import os
 #from Presentation import *
 from Presentation import Presentation
 import datetime
+from datetime import timedelta,date,timedelta,time
 
 class Cedule:
 
@@ -26,10 +27,6 @@ class Cedule:
         self.statut = statut
 
     def InsertCedule(self, db):
-        #item = {"_id" : self.id, "date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut, "heureMinute" : self.heureMinute,"statut" : self.statut }
-
-        #result = Cedule.FindCedule(db,self.date,self.idSalle )
-
         getCedule = Cedule.FindCedule(db,self.date,self.idSalle )
         #create new document
         if getCedule[0]== '':
@@ -42,20 +39,6 @@ class Cedule:
                 { "$push" : {"horaire": {"heureDebut" : self.heureDebut, "minuteDebut": self.minuteDebut, "idPresentation": self.idPresentation, "heureFin": self.heureFin, "minuteFin": self.minuteFin}  }}
              )
              return getCedule[0]['_id']
-
-
-
-    #def ReturnHoraire(self):
-    #    result = []
-    #    for data in self.collection.find():
-    #        result.append(data)
-    #    return result
-
-    #def ReturnHoraireid(self, id):
-    #    result = []
-    #    for data in self.collection.find({"_id": id }):
-    #        result.append(data)
-    #    return result
 
     @staticmethod
     def GetAllCedule(db):
@@ -84,13 +67,56 @@ class Cedule:
         for data in db.Cedule.find({"date" : date, "idSalle" : idSalle}):
             result.append(data)
 
-        arrayAvailableTime = []
+        arrayNonAvailableTime = []
 
         for s in result[0]['horaire'] :
             tempDebut = datetime.time(s['heureDebut'], s['minuteDebut'])
             tempFin = datetime.time(s['heureFin'], s['minuteFin'])
-            arrayAvailableTime.append({tempDebut,tempFin } )
+            arrayNonAvailableTime.append([tempDebut,tempFin ] )
+
+        return arrayNonAvailableTime
+
+    @staticmethod
+    def FindCeduleDisponible(db, date = 0, idSalle = ""):
+        arrayNonAvailableTime = Cedule.FindCeduleNonDisponible(db, date, idSalle)
+
+        arrayAvailableTime = []
+        premier = True
+        temp=datetime.time(0,0)
+        count = len(arrayNonAvailableTime)
+        i=1
+        for s in arrayNonAvailableTime:
+            if premier:
+                tempDebut = datetime.time(8,30)
+                tempFin = s[0]
+                arrayAvailableTime.append([tempDebut,tempFin ])
+                temp = s[1]
+                premier = False
+                i=i+1
+            elif count ==i :
+                tempDebut = temp
+                tempFin = s[0]
+                arrayAvailableTime.append([tempDebut,tempFin ])
+                tempDebut = s[1]
+                tempFin = datetime.time(18,0)
+                arrayAvailableTime.append([tempDebut,tempFin ])
+            else :
+               tempDebut = temp
+               tempFin = s[0]
+               temp = s[1]
+               arrayAvailableTime.append([tempDebut,tempFin ])
+
+        #print arrayNonAvailableTime
+        #print arrayAvailableTime
         #result = result[0]['horaire'][0]
+        #print tempDebut
+        #print tempDebut > datetime.time(12,30)
+        #print tempDebut < datetime.time(12,30)
+        #print type(tempDebut)
+        #print type(timedelta(minutes=2))
+        #print (datetime.datetime.combine(datetime.date.today(),tempDebut) + timedelta(minutes=30)).time()
+        #dt = datetime.datetime.combine(datetime.date.today(), time(23, 55)) + timedelta(minutes=30)
+        #print dt.time()
         return arrayAvailableTime
 
 

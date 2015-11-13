@@ -112,3 +112,9 @@ def test_cedule():
     result = Cedule.FindCeduleNonDisponible(db,20151225,"693ea319-a992-43cb-9bc6-48033f33ed2d")
     print result
     return jsonify(result={"status": "ok"})
+
+@cedule_app.route('/SCSproject/api/testcedule2', methods=['POST'])
+def test_cedule2():
+    result = Cedule.FindCeduleDisponible(db,20151225,"693ea319-a992-43cb-9bc6-48033f33ed2d")
+    print result
+    return jsonify(result={"status": "ok"})
