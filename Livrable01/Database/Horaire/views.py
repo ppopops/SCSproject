@@ -111,3 +111,16 @@ def delete_horaire():
     horaire.DeleteHoraire()
 
     return jsonify(result={"status": 200})
+
+
+@horaire_app.route('/SCSproject/api/testhoraire', methods=['POST'])
+def test_horaire():
+    result = Horaire.FindHoraireNonDisponible(db,20151218,"2fb73f84-5e01-4203-8abb-abf24f015678")
+    print result
+    return jsonify(result={"status": "ok"})
+
+@horaire_app.route('/SCSproject/api/testhoraire2', methods=['POST'])
+def test_horaire2():
+    result = Horaire.FindHoraireDisponible(db,20151218,"2fb73f84-5e01-4203-8abb-abf24f015678")
+    print result
+    return jsonify(result={"status": "ok"})

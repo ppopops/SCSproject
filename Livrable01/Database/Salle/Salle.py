@@ -41,7 +41,7 @@ class Salle:
             result.append(data)
         return result
 
-    #retourber toutes les salles
+    #retourber une salle
     @staticmethod
     def GetIdSalle(db,id):
         result = []

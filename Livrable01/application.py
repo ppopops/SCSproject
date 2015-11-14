@@ -12,6 +12,7 @@ def create_app():
     from Database.Presentation.views import presentation_app
     from Database.Horaire.views import horaire_app
     from Database.User.views import user_app
+    from Database.Cedule.views import cedule_app
 
     # register blueprints
     app.register_blueprint(batiments_app)
@@ -19,5 +20,6 @@ def create_app():
     app.register_blueprint(presentation_app)
     app.register_blueprint(horaire_app)
     app.register_blueprint(user_app)
+    app.register_blueprint(cedule_app)
 
     return app
