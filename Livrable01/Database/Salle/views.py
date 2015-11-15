@@ -52,10 +52,12 @@ def create_salle():
     statut =  salle.get ("statut","")
     description =  salle.get ("description","")
     id = "0"   #contructor will set id
-    salle = Salle( db, numeroSalle ,etageSalle, capaciteSalle, equipementSalle ,idBatiment, statut, description, id )
-    itemID = salle.InsertSalle()
-
-    return jsonify(salle={"_id": itemID})
+    
+    if IsSalleAlreadyExist(db,numeroSalle,idBatiment)==False:
+        salle = Salle( db, numeroSalle ,etageSalle, capaciteSalle, equipementSalle ,idBatiment, statut, description, id )
+        itemID = salle.InsertSalle()
+        return jsonify(salle={"_id": itemID})
+    return jsonify(result={"status": 406})
     #return jsonify(result={"status": 200})
 
 

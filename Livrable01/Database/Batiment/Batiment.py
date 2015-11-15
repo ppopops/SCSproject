@@ -65,4 +65,8 @@ class Batiment:
         return result
 
 
+    def IsBatimentAlreadyExist(db,batimentName,universityName):
+        if ((db.Batimnent.find({'universite': universityName}).count() > 0) and (db.Batimnent.find({'nom': batimentName}).count() > 0)):
+            return True
 
+        return False

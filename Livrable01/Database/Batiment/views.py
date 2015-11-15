@@ -39,12 +39,12 @@ def create_batiment():
     campusBatiment =  batiment.get ("campus","")
     universite =  batiment.get ("universite","")
     id = "0"   #contructor will set id
-    batiment = Batiment( db, nomBatiment ,adresseBatiment, faculteBatiment, campusBatiment , universite, id )
-    itemId = batiment.InsertBatiment()
+    if IsBatimentAlreadyExist(db,nomBatiment,universite)==False:
+        batiment = Batiment( db, nomBatiment ,adresseBatiment, faculteBatiment, campusBatiment , universite, id )
+        itemId = batiment.InsertBatiment()
+        return jsonify(batiment={"_id": itemId})
+    return "Already exist"
     #print itemId
-
-    return jsonify(batiment={"_id": itemId})
-    #return jsonify(result={"status": 200})
 
 @batiments_app.route('/SCSproject/api/getbatimentid/<string:batiment_id>', methods=['GET'])
 def get_batiment_id(batiment_id):

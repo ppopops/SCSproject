@@ -63,6 +63,10 @@ class Presentation:
         self.collection.remove({"_id" : self.id})
         return
 
+    def IsPresentationValid(db,duree):
+        if ((duree > 15) and (duree <60)):
+            if (duree / 15 % 0):
+                return True
 
-
+        return False
 

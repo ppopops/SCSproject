@@ -33,11 +33,15 @@ def create_presentation():
     dureeMinute =  presentation.get ("dureeMinute","")
     presentateur =  presentation.get ("presentateur","")
     id = "0"   #contructor will set id
-    presentation = Presentation( db, titre ,nombreParticipants, equipement, dureeHeure ,dureeMinute, presentateur, id )
-    itemId = presentation.InsertPresentation()
+    if IsPresentationValid(db,duree)==True:
+        presentation = Presentation( db, titre ,nombreParticipants, equipement, dureeHeure ,dureeMinute, presentateur, id )
+        itemId = presentation.InsertPresentation()
+        return jsonify(presentation={"_id": itemId})
+
+    return "Presentation not valid duration must be between 15 and 90 minute"
+          
     #print itemId
 
-    return jsonify(presentation={"_id": itemId})
     #return jsonify(result={"status": 200})
 
 @presentation_app.route('/SCSproject/api/getpresentation', methods=['GET'])
