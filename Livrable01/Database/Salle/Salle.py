@@ -67,7 +67,7 @@ class Salle:
         
     @staticmethod
     def IsSalleAlreadyExist(db,salleNumber,idBatiment):
-        if ((db.Salle.find({'numero': universityName}).count() > 0) and (db.Salle.find({'idBatiment': batimentName}).count() > 0)):
+        if ((db.Salle.find({'numero': salleNumber}).count() > 0) and (db.Salle.find({'idBatiment': idBatiment}).count() > 0)):
             return True
 
         return False
