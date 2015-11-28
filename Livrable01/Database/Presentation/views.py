@@ -33,7 +33,7 @@ def create_presentation():
     dureeMinute =  presentation.get ("dureeMinute","")
     presentateur =  presentation.get ("presentateur","")
     id = "0"   #contructor will set id
-    if Presentation.IsPresentationValid(db,duree)==True:
+    if Presentation.IsPresentationValid(db,dureeMinute,dureeHeure)==True:
         presentation = Presentation( db, titre ,nombreParticipants, equipement, dureeHeure ,dureeMinute, presentateur, id )
         itemId = presentation.InsertPresentation()
         return jsonify(presentation={"_id": itemId})

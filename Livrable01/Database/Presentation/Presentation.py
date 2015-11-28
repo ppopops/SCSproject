@@ -64,9 +64,17 @@ class Presentation:
         return
 
     @staticmethod
-    def IsPresentationValid(db,duree):
-        if ((duree >= 15) and (duree <= 60)):
-            if (duree / 15 % 0):
+    def IsPresentationValid(db,dureeMinute,dureeHeure):
+        if (dureeHeure > 1):
+            return False
+
+        convHeureToMinute = dureeHeure * 60 
+        dureeTotale = convHeureToMinute + dureeMinute
+        if ( dureeTotale > 90):
+            return False
+
+        if ((dureeTotale >= 15) and (dureeTotale <= 90)):
+            if (dureeMinute % 15 == 0):
                 return True
 
         return False
