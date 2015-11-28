@@ -66,7 +66,7 @@ class Batiment:
 
     @staticmethod
     def IsBatimentAlreadyExist(db,batimentName,universityName):
-        if ((db.Batimnent.find({'universite': universityName}).count() > 0) and (db.Batimnent.find({'nom': batimentName}).count() > 0)):
+        if ((db.Batiment.find({'universite': universityName}).count() > 0) and (db.Batiment.find({'nom': batimentName}).count() > 0)):
             return True
 
         return False

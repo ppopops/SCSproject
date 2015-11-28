@@ -39,7 +39,7 @@ def create_batiment():
     campusBatiment =  batiment.get ("campus","")
     universite =  batiment.get ("universite","")
     id = "0"   #contructor will set id
-    if IsBatimentAlreadyExist(db,nomBatiment,universite)==False:
+    if Batiment.IsBatimentAlreadyExist(db,nomBatiment,universite)==False:
         batiment = Batiment( db, nomBatiment ,adresseBatiment, faculteBatiment, campusBatiment , universite, id )
         itemId = batiment.InsertBatiment()
         return jsonify(batiment={"_id": itemId})
