@@ -64,7 +64,8 @@ class Salle:
         #print {"_id" : self.id, "numeroSalle" : self.numeroSalle ,"etageSalle" : self.etageSalle, "capaciteSalle" : self.capaciteSalle, "equipementSalle" : self.equipementSalle, "idBatiment" : self.idBatiment }
         self.collection.remove({"_id" : self.id})
         return
-    
+        
+    @staticmethod
     def IsSalleAlreadyExist(db,salleNumber,idBatiment):
         if ((db.Salle.find({'numero': universityName}).count() > 0) and (db.Salle.find({'idBatiment': batimentName}).count() > 0)):
             return True
