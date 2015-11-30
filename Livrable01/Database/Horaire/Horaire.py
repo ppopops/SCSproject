@@ -138,6 +138,14 @@ class Horaire:
         tempsDebutLunch = datetime.time(12, 0)
         tempsFinLunch = datetime.time(13, 0)
 
+        #Reseautage matin
+        tempsDebutReseautageAM = datetime.time(10, 0)
+        tempsFinReseautageAM = datetime.time(10, 20)
+
+        #Reseautage PM
+        tempsDebutReseautagePM = datetime.time(15, 0)
+        tempsFinReseautagePM = datetime.time(15, 20)
+
         horaireNonDisponible=[]
         horaireNonDisponible = Horaire.FindHoraireNonDisponible(db, date,idSalle )
         #horaireNonDisponible = Horaire.FindHoraireNonDisponible(db,20151218,"2fb73f84-5e01-4203-8abb-abf24f015678")
@@ -157,6 +165,22 @@ class Horaire:
             return False
         if ( (tempsFin > tempsDebutLunch) and (tempsFin < tempsFinLunch)):
             print "Fin de la presentation pendant lunch!"
+            return False
+
+        #Validation reseautage AM
+        if ( (tempsDebut > tempsDebutReseautageAM) and (tempsDebut < tempsFinReseautageAM)):
+            print "Debut de la presentation pendant reseautage AM!"
+            return False
+        if ( (tempsFin > tempsDebutReseautageAM) and (tempsFin < tempsFinReseautageAM)):
+            print "Fin de la presentation pendant reseautage AM!"
+            return False
+
+        #Validation reseautage PM
+        if ( (tempsDebut > tempsDebutReseautagePM) and (tempsDebut < tempsFinReseautagePM)):
+            print "Debut de la presentation pendant reseautage PM!"
+            return False
+        if ( (tempsFin > tempsDebutReseautagePM) and (tempsFin < tempsFinReseautagePM)):
+            print "Fin de la presentation pendant reseautage PM!"
             return False
 
         #Validation horaire disponible
