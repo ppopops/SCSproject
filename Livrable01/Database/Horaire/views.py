@@ -24,7 +24,7 @@ def index():
 @horaire_app.route('/SCSproject/api/sethoraire', methods=['POST'])
 def create_horaire():
     content = request.get_json(force = True)
-    print content
+    #print content
 
     horaireTemp = content.get("horaire")
     horaire= horaireTemp[0]
@@ -35,11 +35,23 @@ def create_horaire():
     minuteDebut =  horaire.get ("minuteDebut","")
     statut =  horaire.get ("statut","")
     id = "0"   #contructor will set id
-    horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut,minuteDebut,statut, id )
-    itemId = horaire.InsertHoraire()
+
     #print itemId
 
-    return jsonify(horaire={"_id": itemId})
+    presentation = Presentation.GetIdPresentation(db,idPresentation)
+    dureeHeure=  presentation[0]['dureeHeure']
+    dureeMinute= presentation[0]['dureeMinute']
+
+    #print dureeHeure
+    #print dureeMinute
+
+    if (Horaire.isDisponible(db,date,idSalle,heureDebut,minuteDebut,dureeHeure, dureeMinute )):
+        print "horaire sauvee"
+        horaire = Horaire( db, date ,idSalle, idPresentation, heureDebut,minuteDebut,statut, id )
+        itemId = horaire.InsertHoraire()
+        return jsonify(horaire={"_id": itemId})
+    else:
+        return jsonify(result={"status": 406})
     #return jsonify(result={"status": 200})
 
 
@@ -75,7 +87,7 @@ def get_horaire_id(horaire_id):
 
 @horaire_app.route('/SCSproject/api/updatehoraire', methods=['POST'])
 def update_horaire():
-    print 'abd'
+    #print 'abd'
     content = request.get_json(force = True)
     print content
 
@@ -113,7 +125,7 @@ def delete_horaire():
     return jsonify(result={"status": 200})
 
 
-@horaire_app.route('/SCSproject/api/testhoraire', methods=['POST'])
+@horaire_app.route('/SCSproject/api/testhoraire', methods=['GET'])
 def test_horaire():
     result = Horaire.FindHoraireNonDisponible(db,20151218,"2fb73f84-5e01-4203-8abb-abf24f015678")
     print result

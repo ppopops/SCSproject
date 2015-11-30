@@ -65,8 +65,8 @@ class Presentation:
 
     @staticmethod
     def IsPresentationValid(db,dureeMinute,dureeHeure):
-        if (dureeHeure > 1):
-            return False
+        #if (dureeHeure > 1):
+        #    return False
 
         convHeureToMinute = dureeHeure * 60 
         dureeTotale = convHeureToMinute + dureeMinute

@@ -24,7 +24,7 @@ class Horaire:
         self.statut = statut
 
     def InsertHoraire(self):
-        item = {"_id" : self.id, "date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut, "heureMinute" : self.heureMinute,"statut" : self.statut }
+        item = {"_id" : self.id, "date" : self.date ,"idSalle" : self.idSalle, "idPresentation" : self.idPresentation, "heureDebut" : self.heureDebut, "minuteDebut" : self.heureMinute,"statut" : self.statut }
         #print item
         item_id = self.collection.insert_one(item).inserted_id
         #print item_id
@@ -84,6 +84,7 @@ class Horaire:
         arrayNonAvailableTime = []
 
         for s in result :
+            #print s
             tempDebut = datetime.time(s['heureDebut'], s['minuteDebut'])
             presentation = Presentation.GetIdPresentation(db,s['idPresentation'])
             tempFin = (datetime.datetime.combine(datetime.date.today(),tempDebut) + timedelta(hours = presentation[0]['dureeHeure'] ,minutes=presentation[0]['dureeMinute'])).time()
@@ -122,3 +123,57 @@ class Horaire:
                arrayAvailableTime.append([tempDebut,tempFin ])
 
         return arrayAvailableTime
+
+    @staticmethod
+    def isDisponible(db, date, idSalle, heureDebut, minuteDebut, dureeHeure, dureeMinute):
+
+        tempsDebut = datetime.time(heureDebut, minuteDebut)
+        tempsFin = (datetime.datetime.combine(datetime.date.today(),tempsDebut) + timedelta(hours = dureeHeure ,minutes=dureeMinute)).time()
+
+        #temp de debut et de fin de journee
+        tempsDebutJournee = datetime.time(8, 30)
+        tempsFinJournee = datetime.time(18, 0)
+
+        #Heure de lunch
+        tempsDebutLunch = datetime.time(12, 0)
+        tempsFinLunch = datetime.time(13, 0)
+
+        horaireNonDisponible=[]
+        horaireNonDisponible = Horaire.FindHoraireNonDisponible(db, date,idSalle )
+        #horaireNonDisponible = Horaire.FindHoraireNonDisponible(db,20151218,"2fb73f84-5e01-4203-8abb-abf24f015678")
+
+        #Validation debut de journee
+        if tempsDebut < tempsDebutJournee:
+            print "Trop tot!"
+            return False
+        #Validation fin de journee
+        if tempsFin > tempsFinJournee:
+            print "Trop tard!"
+            return False
+
+        #Validation Heure de lunch
+        if ( (tempsDebut > tempsDebutLunch) and (tempsDebut < tempsFinLunch)):
+            print "Debut de la presentation pendant lunch!"
+            return False
+        if ( (tempsFin > tempsDebutLunch) and (tempsFin < tempsFinLunch)):
+            print "Fin de la presentation pendant lunch!"
+            return False
+
+        #Validation horaire disponible
+        for s in horaireNonDisponible:
+            # ajouter 20 min avant et apres presentation
+            nonDispoDebut = (datetime.datetime.combine(datetime.date.today(),s[0]) - timedelta(hours = 0 ,minutes=20)).time()
+            nonDispoFin = (datetime.datetime.combine(datetime.date.today(),s[1]) + timedelta(hours = 0 ,minutes=20)).time()
+            #print nonDispoDebut
+            #print nonDispoFin
+            if ( (tempsDebut > nonDispoDebut) and (tempsDebut < nonDispoFin) or (tempsFin > nonDispoDebut) and (tempsFin < nonDispoFin) ) :
+                print "Plage horaire prise!"
+                return False
+
+        #print horaireNonDisponible
+
+        #print tempsDebut
+        #print tempsFin
+        #print tempsDebutJournee
+        #print tempsFinJournee
+        return True
